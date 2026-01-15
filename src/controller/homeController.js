@@ -27,9 +27,7 @@ export const handleUpdateUserPage = async (req, res) => {
    const userId = req.params.id;
    const user = await getUserById(userId);
    let userData = {};
-   if (user && user.length > 0) {
-      userData = user[0];
-   }
+   userData = user;
    res.render('user-update.ejs', { user: userData });
 };
 
