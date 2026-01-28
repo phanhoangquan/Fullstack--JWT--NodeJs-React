@@ -16,7 +16,35 @@ export const getAllUsers = async () => {
    } catch (e) {
       console.log(e);
       return {
-         EM: 'something wrong with services',
+         EM: 'something wrong with services getAllUsers',
+         EC: 1,
+         DT: [],
+      };
+   }
+};
+
+export const getUserWithPagination = async (page, limit) => {
+   try {
+      let offset = (page - 1) * limit;
+      const { count, rows } = await db.User.findAndCountAll({
+         offset: offset,
+         limit: limit,
+      });
+      let totalPages = Math.ceil(count / limit);
+      let data = {
+         totalRows: count,
+         totalPages: totalPages,
+         users: rows,
+      };
+      return {
+         EM: 'get user success',
+         EC: 0,
+         DT: data,
+      };
+   } catch (e) {
+      console.log(e);
+      return {
+         EM: 'something wrong with services getUserWithPagination',
          EC: 1,
          DT: [],
       };
